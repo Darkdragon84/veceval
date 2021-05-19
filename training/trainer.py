@@ -2,6 +2,13 @@ import os
 import veceval as ve
 import time
 
+os.environ["AFFILIATION"] = "VecEval"
+os.environ["ROOTDIR"] = "/mnt/Data/Python/veceval"
+os.environ["LOG_FILE"] = "/mnt/Data/Python/veceval/logs/log.txt"
+os.environ["CHECKPOINT_HOME"] = "/mnt/Data/Python/veceval/checkpoints"
+os.environ["PICKLES_HOME"] = "/mnt/Data/Python/veceval/pickles"
+
+
 class Trainer(object):
 
   def __init__(self):

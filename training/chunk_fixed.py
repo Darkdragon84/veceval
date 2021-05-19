@@ -22,7 +22,7 @@ class ChunkFixedTrainer(Trainer):
      self.embedding_path) = ve.make_paths(self.TASK, self.MODE, self.name)
     
     # Get embeddings
-    self.embeddings = pickle.load(open(self.embedding_path, 'r'))
+    self.embeddings = pickle.load(open(self.embedding_path, 'rb'))
     self.ds = EmbeddingWindowCapsDataset(self.train_data_path, self.embeddings,
                                      has_validation=False, is_testing=ve.IS_TESTING)
 
