@@ -1,4 +1,5 @@
 cycler==0.10.0
+cython==0.29.23
 h5py==2.6.0
 Keras==1.0.7
 matplotlib==1.5.2
@@ -12,3 +13,4 @@ scipy==1.1.0
 six==1.10.0
 sklearn==0.0
 Theano==0.8.2
+vecto==0.2.12
