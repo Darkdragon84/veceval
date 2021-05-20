@@ -17,7 +17,7 @@ def main():
             (avg_score, _, p1, p2, _) = line.split("\t")
             p1_words = [word.lower() for word in p1.split()]
             p2_words = [word.lower() for word in p2.split()]
-            label = str(ceil(float(avg_score)))
+            label = f"{ceil(float(avg_score)):.1f}"
             if label == '0.0':
                 label = '1.0'
             dataset.append((p1_words, p2_words, label_map[label]))
