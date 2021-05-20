@@ -67,7 +67,7 @@ def make_paths(task, mode, name):
     return train_data_path, checkpoint_path, embedding_path
 
 
-class Hyperparams():
+class Hyperparams:
     def __init__(self, path):
         hp = {}
 
@@ -114,7 +114,7 @@ def make_vocab_and_weights(embeddings):
     vocab_dict = {word: i for i, word in enumerate(vocab)}
     embedding_weights = [embeddings[word] for word in vocab]
 
-    return (vocab, vocab_dict, np.array(embedding_weights))
+    return vocab, vocab_dict, np.array(embedding_weights)
 
 
 def read_data_pickle(pickle_path):

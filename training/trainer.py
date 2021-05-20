@@ -7,9 +7,9 @@ from helpers.read_write import load_pickle
 
 os.environ["AFFILIATION"] = "VecEval"
 os.environ["ROOTDIR"] = "/mnt/Data/Python/veceval"
-os.environ["LOG_FILE"] = "/mnt/Data/Python/veceval/logs/log.txt"
-os.environ["CHECKPOINT_HOME"] = "/mnt/Data/Python/veceval/checkpoints"
-os.environ["PICKLES_HOME"] = "/mnt/Data/Python/veceval/pickles"
+os.environ["LOG_FILE"] = "/mnt/Data/iris_data/veceval/logs/log.txt"
+os.environ["CHECKPOINT_HOME"] = "/mnt/Data/iris_data/veceval/checkpoints"
+os.environ["PICKLES_HOME"] = "/mnt/Data/iris_data/veceval/pickles"
 
 
 class Trainer(object):

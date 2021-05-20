@@ -7,7 +7,7 @@ from math import ceil
 
 def calculate_pad_length(window_size):
   assert window_size % 2 ==1
-  return (window_size - 1)/2
+  return int((window_size - 1)/2)
 
 def read_dataset_sentences(input_file, window_size):
   pad_length = calculate_pad_length(window_size)
