@@ -1,11 +1,6 @@
 # neri -*- coding: utf-8 -*-
 import sys
-import codecs
-import pickle
-import data_lib as dl
-
-from collections import defaultdict
-from math import ceil
+import data.data_lib as dl
 
 
 def calculate_pad_length(window_size):
