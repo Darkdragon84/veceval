@@ -39,6 +39,7 @@ class Trainer(object):
         elif set_to_evaluate == ve.TRAIN:
             (X, Y) = self.ds.X_train, self.ds.Y_train
         else:
+            # TODO VS: check if we ever get here
             assert set_to_evaluate == ve.TEST and ve.TESTING == True
             (X, Y) = self.ds.X_test, self.ds.Y_test
 
