@@ -1,7 +1,8 @@
 # -*- coding: utf-8 -*-
 import sys
 import codecs
-import data.data_lib as dl
+
+from veceval.data import data_lib as dl
 
 from collections import defaultdict
 from math import ceil

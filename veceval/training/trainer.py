@@ -3,7 +3,7 @@ import os
 import veceval as ve
 import time
 
-from helpers.read_write import load_pickle
+from veceval.helpers.read_write import load_pickle
 
 os.environ["AFFILIATION"] = "VecEval"
 os.environ["ROOTDIR"] = "/mnt/Data/Python/veceval"

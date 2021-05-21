@@ -1,5 +1,6 @@
 import sys
-import data.data_lib as dl
+
+from veceval.data import data_lib as dl
 from math import ceil
 import random
 

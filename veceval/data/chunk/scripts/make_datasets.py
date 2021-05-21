@@ -1,6 +1,6 @@
 # neri -*- coding: utf-8 -*-
 import sys
-import data.data_lib as dl
+from veceval.data import data_lib as dl
 
 
 def calculate_pad_length(window_size):

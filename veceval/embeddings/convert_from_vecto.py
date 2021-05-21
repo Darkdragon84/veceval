@@ -5,7 +5,7 @@ from pathlib import Path
 
 from vecto.embeddings import load_from_dir
 
-from embeddings.prepare_embeddings import SEP
+from veceval.embeddings.prepare_embeddings import SEP
 
 
 def main():
