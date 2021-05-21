@@ -1,6 +1,6 @@
 import sys
 
-import veceval.training.veceval as ve
+import veceval.helpers.utility_functions as ve
 import numpy as np
 
 from veceval.training.trainer import Trainer
@@ -70,11 +70,10 @@ class NERFinetunedTrainer(Trainer):
         return set_to_evaluate, result
 
 
-def main():
-    config_path, name = sys.argv[1:3]
+def main_training(config_path, name):
     trainer = NERFinetunedTrainer(config_path, name)
     trainer.train_and_test()
 
 
 if __name__ == "__main__":
-    main()
+    main_training(*sys.argv[1:3])

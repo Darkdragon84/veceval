@@ -1,5 +1,5 @@
 import pickle
-import veceval.training.veceval as ve
+import veceval.helpers.utility_functions as ve
 import sys
 import gzip
 import numpy as np

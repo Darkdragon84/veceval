@@ -1,11 +1,13 @@
 import os
+import sys
+from functools import partial
 
 from veceval.settings import AvailableTasks, CONFIGS_FOLDER, MODES
 import importlib
 
 
-def compile_trainers():
-    task_to_data_training = {}
+def compile_trainers(embedding_name):
+    task_to_trainer = {}
     for task in AvailableTasks:
         for mode in MODES:
             base_name = f"{task.value}_{mode}"
@@ -13,22 +15,23 @@ def compile_trainers():
             if not os.path.isfile(config_file_path):
                 continue
             try:
-                trainer = importlib.import_module(f"veceval.training.{base_name}")
-            except (ImportError, ModuleNotFoundError):
+                trainer = getattr(importlib.import_module(f"veceval.training.{base_name}"), "main_training")
+                trainer = partial(trainer, config_file_path, embedding_name)
+            except (ImportError, ModuleNotFoundError, AttributeError):
                 continue
-    return task_to_data_training
+            task_to_trainer[base_name] = trainer
+    return task_to_trainer
 
 
-TASK_TO_DATA_TRAINING = {
-    task.name: {
-        "config": CONFIGS_FOLDER / f"config_{task.value}_{mode}.txt",
-        "trainer": importlib.import_module(f"training")}
-    for task in AvailableTasks
-    for mode in MODES
-}
+def main(embedding_name):
+    task_to_trainer = compile_trainers(embedding_name)
+    for task_name, trainer in task_to_trainer.items():
+        print(80 * "=")
+        print(task_name.upper())
+        print(80 * "-")
+        trainer()
+        print()
 
-def main():
-    pass
 
 if __name__ == '__main__':
-    main()
+    main(sys.argv[1])

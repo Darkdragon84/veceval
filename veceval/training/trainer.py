@@ -1,15 +1,9 @@
 import abc
-import os
-import veceval.training.veceval as ve
+import veceval.helpers.utility_functions as ve
 import time
 
 from veceval.helpers.read_write import load_pickle
-
-os.environ["AFFILIATION"] = "VecEval"
-os.environ["ROOTDIR"] = "/mnt/Data/Python/veceval"
-os.environ["LOG_FILE"] = "/mnt/Data/iris_data/veceval/logs/log.txt"
-os.environ["CHECKPOINT_HOME"] = "/mnt/Data/iris_data/veceval/checkpoints"
-os.environ["PICKLES_HOME"] = "/mnt/Data/iris_data/veceval/pickles"
+from veceval.settings import RUNNING_LOG_FILE_PATH, AFFILIATION
 
 
 class Trainer(object):
@@ -56,8 +50,8 @@ class Trainer(object):
         pass
 
     def print_result(self, set_to_evaluate=ve.VAL):
-        log_file = os.environ["LOG_FILE"]
-        affiliation = os.environ["AFFILIATION"]
+        log_file = RUNNING_LOG_FILE_PATH
+        affiliation = AFFILIATION
         set_to_evaluate, result = self.evaluate(set_to_evaluate)
         with open(log_file, 'a') as f:
             f.write("\t".join([time.strftime("%Y-%m-%d %H:%M:%S", time.gmtime()),

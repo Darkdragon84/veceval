@@ -1,6 +1,6 @@
 import numpy as np
 
-from veceval.training.veceval import lookup, PAD, WINDOW_SIZE, caps_feature, read_data_pickle, make_vocab_and_weights, \
+from veceval.helpers.utility_functions import lookup, PAD, WINDOW_SIZE, caps_feature, read_data_pickle, make_vocab_and_weights, \
     read_data_pair_pickle
 
 

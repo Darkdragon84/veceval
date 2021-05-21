@@ -7,6 +7,9 @@ from keras.optimizers import Adagrad, Adadelta, RMSprop
 from keras.callbacks import EarlyStopping, ModelCheckpoint
 from keras.utils.np_utils import categorical_probas_to_classes
 from sklearn.metrics import f1_score
+from pathlib import Path
+
+from veceval.settings import PROJECT_ROOT, CHECKPOINT_FOLDER, PICKLES_FOLDER
 
 POS = "pos"
 SENTIMENT = "sentiment"
@@ -60,10 +63,9 @@ SEED = 137
 
 
 def make_paths(task, mode, name):
-    train_data_path = "".join([os.environ["ROOTDIR"], "/data/", task, "/train.pickle"])
-    checkpoint_path = "".join([os.environ["CHECKPOINT_HOME"], "/", name, "_", task, "_",
-                               mode, ".ckpt"])
-    embedding_path = "".join([os.environ["PICKLES_HOME"], "/", name, ".pickle"])
+    train_data_path = PROJECT_ROOT.joinpath("data").joinpath(task).joinpath("train.pickle").as_posix()
+    checkpoint_path = CHECKPOINT_FOLDER.joinpath(f"{name}_{task}_{mode}.ckpt").as_posix()
+    embedding_path = PICKLES_FOLDER.joinpath(f"{name}.pickle").as_posix()
     return train_data_path, checkpoint_path, embedding_path
 
 
