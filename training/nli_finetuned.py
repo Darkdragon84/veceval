@@ -27,7 +27,7 @@ class NLIFinetunedTrainer(Trainer):
     def build_model(self):
         premise = Sequential()
         premise.add(Embedding(input_dim=len(self.ds.vocab),
-                              output_dim=ve.EMBEDDING_SIZE,
+                              output_dim=self.embedding_size,
                               weights=[self.ds.weights],
                               input_length=ve.NLI_MAX_LEN,
                               W_regularizer=l2(self.hp.embedding_l2)))
@@ -36,7 +36,7 @@ class NLIFinetunedTrainer(Trainer):
 
         hypothesis = Sequential()
         hypothesis.add(Embedding(input_dim=len(self.ds.vocab),
-                                 output_dim=ve.EMBEDDING_SIZE,
+                                 output_dim=self.embedding_size,
                                  weights=[self.ds.weights],
                                  input_length=ve.NLI_MAX_LEN,
                                  W_regularizer=l2(self.hp.embedding_l2)))

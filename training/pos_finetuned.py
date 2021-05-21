@@ -24,10 +24,10 @@ class POSFinetunedTrainer(Trainer):
     def build_model(self):
         model = Sequential()
         model.add(Embedding(input_dim=len(self.ds.vocab),
-                            output_dim=ve.EMBEDDING_SIZE,
+                            output_dim=self.embedding_size,
                             weights=[self.ds.weights],
                             input_length=ve.WINDOW_SIZE))
-        model.add(Reshape((ve.EMBEDDING_SIZE * ve.WINDOW_SIZE,)))
+        model.add(Reshape((self.embedding_size * ve.WINDOW_SIZE,)))
         model.add(Dense(output_dim=ve.HIDDEN_SIZE))
         model.add(Activation(ve.TANH))
         model.add(Dropout(ve.DROPOUT_PROB))

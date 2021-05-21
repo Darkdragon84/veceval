@@ -25,7 +25,7 @@ class NERFinetunedTrainer(Trainer):
 
         vector_input = Sequential()
         vector_input.add(Embedding(input_dim=len(self.ds.vocab),
-                                   output_dim=ve.EMBEDDING_SIZE,
+                                   output_dim=self.embedding_size,
                                    weights=[self.ds.weights],
                                    input_length=ve.WINDOW_SIZE))
         caps_input = Sequential()
@@ -36,7 +36,7 @@ class NERFinetunedTrainer(Trainer):
         model = Sequential()
         model.add(Merge([vector_input, caps_input], mode=ve.CONCAT))
         model.add(
-            Reshape(((ve.EMBEDDING_SIZE + ve.CAPS_DIMS) * ve.WINDOW_SIZE,)))
+            Reshape(((self.embedding_size + ve.CAPS_DIMS) * ve.WINDOW_SIZE,)))
         model.add(Dense(output_dim=ve.HIDDEN_SIZE))
         model.add(Activation(ve.TANH))
         model.add(Dropout(ve.DROPOUT_PROB))

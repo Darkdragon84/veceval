@@ -25,7 +25,8 @@ class Trainer(object):
          self.embedding_path) = ve.make_paths(self.TASK, self.MODE, self.name)
 
         # Get embeddings
-        self.embeddings = load_pickle(self.embedding_path)
+        self.embeddings: dict = load_pickle(self.embedding_path)
+        self.embedding_size = len(next(iter(self.embeddings.values())))
         self.ds = self.load_data()
 
         # Define model

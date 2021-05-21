@@ -22,7 +22,7 @@ class QuestionsFinetunedTrainer(Trainer):
     def build_model(self):
         model = Sequential()
         model.add(Embedding(input_dim=len(self.ds.vocab),
-                            output_dim=ve.EMBEDDING_SIZE,
+                            output_dim=self.embedding_size,
                             weights=[self.ds.weights],
                             input_length=ve.QUESTIONS_MAX_LEN,
                             W_regularizer=l2(self.hp.embedding_l2)))
