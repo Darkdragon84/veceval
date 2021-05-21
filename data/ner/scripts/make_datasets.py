@@ -38,7 +38,7 @@ def main():
     window_size = int(window_size)
 
     train = read_dataset_sentences(input_prefix + '/train.txt', window_size)
-    valid = read_dataset_sentences(input_prefix + '/dev.txt', window_size)
+    valid = read_dataset_sentences(input_prefix + '/valid.txt', window_size)
     train_windows = make_windows(train, window_size)
     valid_windows = make_windows(valid, window_size)
 
