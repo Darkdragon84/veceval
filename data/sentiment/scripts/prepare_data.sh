@@ -1,4 +1,4 @@
-wget https://nlp.stanford.edu/~socherr/stanfordSentimentTreebank.zip
+wget -O stanfordSentimentTreebank.zip https://nlp.stanford.edu/~socherr/stanfordSentimentTreebank.zip
 unzip stanfordSentimentTreebank.zip 
 rm -r __MACOSX/
 rm stanfordSentimentTreebank.zip 
