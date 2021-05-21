@@ -5,7 +5,7 @@ import data.data_lib as dl
 
 def read_dataset_sentences(input_file):
     dataset = []
-    with open(input_file, 'r') as f:
+    with open(input_file, 'r', encoding="ISO-8859-1") as f:
         for line in f:
             fields = line.split()
             label = fields[0].split(':')[0]

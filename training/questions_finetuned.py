@@ -1,10 +1,7 @@
-import pickle
 import sys
 
 import veceval as ve
 import numpy as np
-
-np.random.seed(ve.SEED)
 
 from trainer import Trainer
 from index_datasets import IndexDataset
@@ -14,6 +11,8 @@ from keras.layers.embeddings import Embedding
 from keras.layers.core import Dense, Dropout, Activation
 from keras.layers.recurrent import LSTM
 from keras.regularizers import l2
+
+np.random.seed(ve.SEED)
 
 
 class QuestionsFinetunedTrainer(Trainer):
