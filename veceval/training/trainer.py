@@ -1,6 +1,6 @@
 import abc
 import os
-import veceval as ve
+import veceval.training.veceval as ve
 import time
 
 from veceval.helpers.read_write import load_pickle

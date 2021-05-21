@@ -1,13 +1,32 @@
 import os
 
 from pathlib import Path
+from enum import Enum
 
-EXT_DATA_ROOT = Path(__file__).resolve().parent / "ext_data"
+FIXED = "fixed"
+FINETUNED = "finetuned"
+
+
+class AvailableTasks(Enum):
+    CHUNK = "chunk"
+    NER = "ner"
+    NLI = "nli"
+    POS = "pos"
+    QUESTIONS = "questions"
+    SENTIMENT = "sentiment"
+
+
+TASKS = [task.value for task in AvailableTasks]
+MODES = [FIXED, FINETUNED]
+PROJECT_ROOT = Path(__file__).resolve().parent
+
+EXT_DATA_ROOT = PROJECT_ROOT / "ext_data"
 AFFILIATION = "iris.ai"
 
 RUNNING_LOG_FILE = EXT_DATA_ROOT / Path("logs/log.txt")
 CHECKPOINT_FOLDER = EXT_DATA_ROOT / Path("checkpoints")
 PICKLES_FOLDER = EXT_DATA_ROOT / Path("pickles")
+CONFIGS_FOLDER = PROJECT_ROOT / Path("training") / Path("configs")
 
 # create settings_local.py file and override the desired settings
 try:

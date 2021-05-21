@@ -1,10 +1,10 @@
 import sys
 
-import veceval as ve
+import veceval.training.veceval as ve
 import numpy as np
 
-from trainer import Trainer
-from index_datasets import IndexDataset
+from veceval.training.trainer import Trainer
+from veceval.training.index_datasets import IndexDataset
 
 from keras.models import Sequential
 from keras.layers.embeddings import Embedding
