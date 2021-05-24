@@ -1,15 +1,14 @@
 import pickle
+
+from vecto.embeddings import load_from_dir
+
 import veceval.helpers.utility_functions as ve
 import sys
-import gzip
 import numpy as np
-
-# DIM = 50
-SEP = "\t"
 
 
 def main():
-    embeddings_file, common_vocab_file, output_file = sys.argv[1:]
+    embeddings_folder, common_vocab_file, output_file = sys.argv[1:]
 
     common_vocabulary = set()
     for line in open(common_vocab_file, 'r'):
@@ -19,20 +18,21 @@ def main():
     unk_vectors = []
     dim = None
 
-    with gzip.open(embeddings_file, 'r') as embedding_file:
-        for line in embedding_file:
-            this_line = line.decode().split(SEP)
-            dim = dim or len(this_line) - 1
-            assert len(this_line) == dim + 1
-            word = this_line[0].lower()
-            vector = np.array([float(x) for x in this_line[1:]])
-            if word in common_vocabulary:
-                embedding_dict[word] = vector
-            else:
-                unk_vectors.append(vector)
+    embeddings = load_from_dir(embeddings_folder)
+    for word in embeddings.vocabulary.lst_words:
+        word = word.lower()
+        vector = embeddings.get_vector(word)
+        dim = dim or len(vector)
+        assert dim == len(vector)
+
+        if word in common_vocabulary:
+            embedding_dict[word] = vector
+        else:
+            unk_vectors.append(vector)
 
     embedding_dict[ve.PAD] = np.zeros(shape=(dim,))
     if unk_vectors:
+        print(f"{len(unk_vectors)} words from vocabulary not in model")
         embedding_dict[ve.UNK] = sum(unk_vectors) / len(unk_vectors)
     else:
         embedding_dict[ve.UNK] = np.zeros(shape=(dim,))

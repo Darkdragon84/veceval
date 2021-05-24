@@ -30,7 +30,7 @@ except ImportError:
     EXT_DATA_ROOT = PROJECT_ROOT / "ext_data"
     print('No settings_local.py, using settings values from settings.py')
 
-RUNNING_LOG_FILE_PATH = EXT_DATA_ROOT / Path("logs/log.txt")
+RUNNING_LOG_FILE_PATH = EXT_DATA_ROOT / Path("logs/log.tsv")
 CHECKPOINT_FOLDER = EXT_DATA_ROOT / Path("checkpoints")
 PICKLES_FOLDER = EXT_DATA_ROOT / Path("pickles")
 
