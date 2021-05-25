@@ -9,46 +9,60 @@ from math import ceil
 
 
 def read_dataset_sentences(input_prefix):
-    dataset_sentences = {}
-    dataset_sentences_file = codecs.open(
-        input_prefix + '/datasetSentences.txt', 'r', 'utf-8')
+    id_to_sentence = {}
 
-    # dataset_sentences : sentence index -> sentence string
-    dataset_sentences_file.readline()
+    with open(input_prefix + '/datasetSentences.txt', 'r', encoding='utf-8') as dataset_sentences_file:
 
-    for line in dataset_sentences_file:
-        (sent_id, sentence) = line.split('\t')
-        dataset_sentences[sent_id] = sentence[:-1].encode(
-            'latin-1').decode('utf-8')
+    # dataset_sentences_file = codecs.open(
+    #     input_prefix + '/datasetSentences.txt', 'r', 'utf-8')
 
-    return dataset_sentences
+        # dataset_sentences : sentence index -> sentence string
+        dataset_sentences_file.readline()
+
+        for line in dataset_sentences_file:
+            (sent_id, sentence) = line.split('\t')
+            # there are some encoding issues in the datasetSentences txt file
+            id_to_sentence[sent_id] = sentence.strip().encode('latin-1').decode('utf-8')
+            # id_to_sentence[sent_id] = sentence[:-1].encode('latin-1').decode('utf-8')
+
+    return id_to_sentence
 
 
 def read_dictionary(input_prefix):
     # dictionary : phrase -> phrase id
     dictionary = {}
-    dictionary_file = codecs.open(input_prefix + '/dictionary.txt', 'r', 'utf-8')
-
-    for line in dictionary_file:
-        (phrase, phrase_id) = line.split('|')
-        dictionary[phrase] = phrase_id[:-1]
+    # dictionary_file = codecs.open(input_prefix + '/dictionary.txt', 'r', 'utf-8')
+    with open(input_prefix + '/dictionary.txt', 'r', encoding='utf-8') as dictionary_file:
+        for line in dictionary_file:
+            (phrase, phrase_id) = line.split('|')
+            # dictionary[phrase] = phrase_id[:-1]
+            dictionary[phrase] = phrase_id.strip()
 
     return dictionary
 
 
 def read_sentiment_labels(input_prefix):
     # sentiment_labels : phrase id -> sentiment
-    sentiment_labels = {}
-    sentiment_labels_file = codecs.open(
-        input_prefix + '/sentiment_labels.txt', 'r', 'utf-8')
+    phrase_to_label = {}
 
-    sentiment_labels_file.readline()
+    with open(input_prefix + '/sentiment_labels.txt', 'r', encoding="us-ascii") as sentiment_labels_file:
 
-    for line in sentiment_labels_file:
-        (phrase_id, sentiment) = line.split('|')
-        sentiment_labels[phrase_id] = sentiment[:-1]
+        sentiment_labels_file.readline()
+        for line in sentiment_labels_file:
+            (phrase_id, sentiment) = line.split('|')
+            phrase_to_label[phrase_id] = sentiment.strip()
 
-    return sentiment_labels
+
+    # sentiment_labels_file = codecs.open(
+    #     input_prefix + '/sentiment_labels.txt', 'r', 'utf-8')
+    #
+    # sentiment_labels_file.readline()
+    #
+    # for line in sentiment_labels_file:
+    #     (phrase_id, sentiment) = line.split('|')
+    #     phrase_to_label[phrase_id] = sentiment[:-1]
+
+    return phrase_to_label
 
 
 def read_dataset_split(input_prefix):
@@ -67,21 +81,23 @@ def read_dataset_split(input_prefix):
     return dataset_split[u"1"], dataset_split[u"2"], dataset_split[u"3"]
 
 
-def get_binary_label(binary_label_map, string_label):
-    label = binary_label_map[ceil(5.0 * float(string_label))]
-    if label is not None:
-        return str(label).encode("utf-8")
-    else:
-        return label
+# def get_binary_label(binary_label_map, string_label):
+#     label = binary_label_map[ceil(5.0 * float(string_label))]
+#     if label is not None:
+#         return str(label).encode("utf-8")
+#     else:
+#         return label
 
 
 def construct_sentiment_dataset(input_prefix):
-    binary_label_map = {0.0: 0.0,
-                        1.0: 0.0,
-                        2.0: 0.0,
-                        3.0: None,
-                        4.0: 1.0,
-                        5.0: 1.0}
+    # binary_label_map = {0.0: 0.0,
+    #                     1.0: 0.0,
+    #                     2.0: 0.0,
+    #                     3.0: None,
+    #                     4.0: 1.0,
+    #                     5.0: 1.0}
+    labels = ["0", "1"]
+    label_map = dl.make_label_map(labels)
 
     dataset_sentences = read_dataset_sentences(input_prefix)
     dictionary = read_dictionary(input_prefix)
@@ -91,20 +107,32 @@ def construct_sentiment_dataset(input_prefix):
     new_test = []
     new_dev = []
     for old, new in zip([train, test, dev], [new_train, new_test, new_dev]):
-        temp = []
-        labels = set()
+        # temp = []
+        # labels = set()
         for sent_id in old:
             phrase = dataset_sentences[sent_id]
             phrase = phrase.replace("-LRB-", "(").replace("-RRB-", ")")
             string_label = sentiment_labels[dictionary[phrase]]
-            binary_sentiment_label = get_binary_label(binary_label_map, string_label)
+            # binary_sentiment_label = get_binary_label(binary_label_map, string_label)
+            # TODO make undecided category in the middle
+            binary_sentiment_label = labels[0] if float(string_label) < 0.5 else labels[1]
             if binary_sentiment_label is not None:
-                temp.append((phrase.split(), binary_sentiment_label))
-                labels.add(binary_sentiment_label)
-        label_map = dl.make_label_map(sorted(list(labels)))
-        for phrase, label in temp:
-            lowered_phrase = [word.lower() for word in phrase]
-            new.append((lowered_phrase, label_map[label]))
+                new.append((
+                    [word.lower() for word in phrase.split()],
+                    label_map[binary_sentiment_label]
+                ))
+        # labels.add(binary_sentiment_label)
+        # label_map = dl.make_label_map(sorted(list(labels)))
+        # for phrase, label in temp:
+        #     lowered_phrase = [word.lower() for word in phrase]
+        #     new.append((lowered_phrase, label_map[label]))
+        #         if binary_sentiment_label is not None:
+        #             temp.append((phrase.split(), binary_sentiment_label))
+                    # labels.add(binary_sentiment_label)
+            # label_map = dl.make_label_map(sorted(list(labels)))
+            # for phrase, label in temp:
+            #     lowered_phrase = [word.lower() for word in phrase]
+            #     new.append((lowered_phrase, label_map[label]))
 
     return new_train, new_test, new_dev, label_map
 

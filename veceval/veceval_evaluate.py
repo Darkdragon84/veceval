@@ -2,15 +2,15 @@ import os
 import sys
 from functools import partial
 
-from veceval.settings import AvailableTasks, CONFIGS_FOLDER, MODES
+from veceval.settings import CONFIGS_FOLDER, MODES, TASKS
 import importlib
 
 
 def compile_trainers():
     task_to_trainer = {}
-    for task in AvailableTasks:
+    for task in TASKS:
         for mode in MODES:
-            base_name = f"{task.value}_{mode}"
+            base_name = f"{task}_{mode}"
             config_file_path = CONFIGS_FOLDER / f"config_{base_name}.txt"
             if not os.path.isfile(config_file_path):
                 continue
@@ -23,10 +23,10 @@ def compile_trainers():
     return task_to_trainer
 
 
-def main(embedding_name):
+def evaluate_embedding(embedding_name):
     task_to_trainer = compile_trainers()
     for task_name, trainer in task_to_trainer.items():
-        print(80 * "=")
+        print(80 * "-")
         print(task_name.upper())
         print(80 * "-")
         trainer(embedding_name)
@@ -34,4 +34,8 @@ def main(embedding_name):
 
 
 if __name__ == '__main__':
-    main(sys.argv[1])
+    for emb_name in sys.argv[1:]:
+        print(80 * "=")
+        print(emb_name)
+        print(80 * "=")
+        evaluate_embedding(emb_name)

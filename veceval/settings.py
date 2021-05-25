@@ -1,23 +1,13 @@
 import os
 
 from pathlib import Path
-from enum import Enum
 
-FIXED = "fixed"
-FINETUNED = "finetuned"
+AVAILABLE_TASKS = ["chunk", "ner", "nli", "pos", "questions", "sentiment"]
+AVAILABLE_MODES = ["fixed", "finetuned"]
 
+TASKS = AVAILABLE_TASKS
+MODES = AVAILABLE_MODES
 
-class AvailableTasks(Enum):
-    CHUNK = "chunk"
-    NER = "ner"
-    NLI = "nli"
-    POS = "pos"
-    QUESTIONS = "questions"
-    SENTIMENT = "sentiment"
-
-
-TASKS = [task.value for task in AvailableTasks]
-MODES = [FIXED, FINETUNED]
 AFFILIATION = "iris.ai"
 
 PROJECT_ROOT = Path(__file__).resolve().parent
@@ -39,6 +29,9 @@ try:
     from veceval.settings_local import *
 except ImportError:
     print('No settings_local.py, using settings values from settings.py')
+
+TASKS = [task for task in TASKS if task in AVAILABLE_TASKS]
+MODES = [mode for mode in MODES if mode in AVAILABLE_MODES]
 
 os.makedirs(EXT_DATA_ROOT, exist_ok=True)
 os.makedirs(RUNNING_LOG_FILE_PATH.parent, exist_ok=True)
