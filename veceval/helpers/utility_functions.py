@@ -1,5 +1,4 @@
 import numpy as np
-import os
 import pickle
 import re
 import sys
@@ -7,7 +6,6 @@ from keras.optimizers import Adagrad, Adadelta, RMSprop
 from keras.callbacks import EarlyStopping, ModelCheckpoint
 from keras.utils.np_utils import categorical_probas_to_classes
 from sklearn.metrics import f1_score
-from pathlib import Path
 
 from veceval.settings import PROJECT_ROOT, CHECKPOINT_FOLDER, PICKLES_FOLDER
 
