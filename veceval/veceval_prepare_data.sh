@@ -13,7 +13,7 @@ echo $ROOTDIR
 # From here on, force all variables to be defined
 set -o nounset
 
-for task in sentiment questions ner chunk nli pos
+for task in ner # sentiment questions ner chunk nli pos
 do
   echo "PREPARING DATA FOR $task"
   TRAIN_LOCATION=$ROOTDIR"/data/"$task"/scripts/"
