@@ -1,9 +1,10 @@
-import numpy as np
 import pickle
 import re
 import sys
-from keras.optimizers import Adagrad, Adadelta, RMSprop
+
+import numpy as np
 from keras.callbacks import EarlyStopping, ModelCheckpoint
+from keras.optimizers import Adagrad, Adadelta, RMSprop
 from keras.utils.np_utils import categorical_probas_to_classes
 from sklearn.metrics import f1_score
 
@@ -186,3 +187,7 @@ def calculate_f1(predictions, actual):
     return f1_score(categorical_probas_to_classes(actual),
                     categorical_probas_to_classes(predictions),
                     average="micro")
+
+
+def reset_seed(seed: int = SEED):
+    np.random.seed(seed)

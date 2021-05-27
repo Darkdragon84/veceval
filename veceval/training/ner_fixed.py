@@ -49,8 +49,8 @@ class NERFixedTrainer(Trainer):
         return set_to_evaluate, result
 
 
-def main_training(config_path, name):
-    np.random.seed(ve.SEED)
+def main_training(config_path, name, seed=ve.SEED):
+    ve.reset_seed(seed)
     trainer = NERFixedTrainer(config_path, name)
     trainer.train_and_test()
 
