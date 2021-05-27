@@ -10,8 +10,6 @@ from keras.models import Sequential
 from keras.layers.core import Dense, Dropout, Activation
 from keras.regularizers import l2
 
-np.random.seed(ve.SEED)
-
 
 class POSFixedTrainer(Trainer):
     TASK = ve.POS
@@ -37,6 +35,7 @@ class POSFixedTrainer(Trainer):
 
 
 def main_training(config_path, name):
+    np.random.seed(ve.SEED)
     trainer = POSFixedTrainer(config_path, name)
     trainer.train_and_test()
 

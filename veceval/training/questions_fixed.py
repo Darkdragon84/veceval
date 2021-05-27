@@ -10,8 +10,6 @@ from keras.layers.core import Dense, Dropout, Activation
 from keras.layers.recurrent import LSTM
 from keras.regularizers import l2
 
-np.random.seed(ve.SEED)
-
 
 class QuestionsFixedTrainer(Trainer):
     TASK = ve.QUESTIONS
@@ -36,6 +34,7 @@ class QuestionsFixedTrainer(Trainer):
 
 
 def main_training(config_path, name):
+    np.random.seed(ve.SEED)
     trainer = QuestionsFixedTrainer(config_path, name)
     trainer.train_and_test()
 

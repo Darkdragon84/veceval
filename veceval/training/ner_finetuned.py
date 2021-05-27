@@ -10,8 +10,6 @@ from keras.models import Sequential
 from keras.layers.embeddings import Embedding
 from keras.layers.core import Dense, Dropout, Activation, Reshape, Merge
 
-np.random.seed(ve.SEED)
-
 
 class NERFinetunedTrainer(Trainer):
     TASK = ve.NER
@@ -71,6 +69,7 @@ class NERFinetunedTrainer(Trainer):
 
 
 def main_training(config_path, name):
+    np.random.seed(ve.SEED)
     trainer = NERFinetunedTrainer(config_path, name)
     trainer.train_and_test()
 

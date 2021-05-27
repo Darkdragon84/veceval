@@ -12,8 +12,6 @@ from keras.layers.core import Dense, Dropout, Activation
 from keras.layers.recurrent import LSTM
 from keras.regularizers import l2
 
-np.random.seed(ve.SEED)
-
 
 class SentimentFinetunedTrainer(Trainer):
     TASK = ve.SENTIMENT
@@ -43,6 +41,7 @@ class SentimentFinetunedTrainer(Trainer):
 
 
 def main_training(config_path, name):
+    np.random.seed(ve.SEED)
     trainer = SentimentFinetunedTrainer(config_path, name)
     trainer.train_and_test()
 

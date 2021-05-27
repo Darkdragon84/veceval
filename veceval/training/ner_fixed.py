@@ -10,8 +10,6 @@ from keras.models import Sequential
 from keras.layers.core import Dense, Dropout, Activation
 from keras.regularizers import l2
 
-np.random.seed(ve.SEED)
-
 
 class NERFixedTrainer(Trainer):
     TASK = ve.NER
@@ -52,6 +50,7 @@ class NERFixedTrainer(Trainer):
 
 
 def main_training(config_path, name):
+    np.random.seed(ve.SEED)
     trainer = NERFixedTrainer(config_path, name)
     trainer.train_and_test()
 

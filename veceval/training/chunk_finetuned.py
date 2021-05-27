@@ -10,8 +10,6 @@ from keras.models import Sequential
 from keras.layers.embeddings import Embedding
 from keras.layers.core import Dense, Dropout, Activation, Reshape
 
-np.random.seed(ve.SEED)
-
 
 class ChunkFinetunedTrainer(Trainer):
     TASK = ve.CHUNK
@@ -38,6 +36,7 @@ class ChunkFinetunedTrainer(Trainer):
 
 
 def main_training(config_path, name):
+    np.random.seed(ve.SEED)
     trainer = ChunkFinetunedTrainer(config_path, name)
     trainer.train_and_test()
 

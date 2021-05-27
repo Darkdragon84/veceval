@@ -11,8 +11,6 @@ from keras.layers.core import Dense, Dropout, Merge
 from keras.layers.recurrent import LSTM
 from keras.regularizers import l2
 
-np.random.seed(ve.SEED)
-
 
 class NLIFixedTrainer(Trainer):
     TASK = ve.NLI
@@ -64,6 +62,7 @@ class NLIFixedTrainer(Trainer):
 
 
 def main_training(config_path, name):
+    np.random.seed(ve.SEED)
     trainer = NLIFixedTrainer(config_path, name)
     trainer.train_and_test()
 
