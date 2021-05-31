@@ -5,7 +5,7 @@ mv conll2003/train.txt ./
 mv conll2003/valid.txt ./
 rm -r conll2003
 
-python make_datasets.py ./ ../ 5
+python make_datasets.py ./ ./ 5
 
 rm train.txt
 rm valid.txt

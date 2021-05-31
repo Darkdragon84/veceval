@@ -5,7 +5,7 @@ from math import ceil
 import random
 
 
-def main():
+def make_dataset():
     input_file, output_prefix = sys.argv[1:]
 
     dataset = []
@@ -37,4 +37,4 @@ def main():
 
 
 if __name__ == "__main__":
-    main()
+    make_dataset()
