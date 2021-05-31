@@ -1,5 +1,9 @@
 #!/bin/bash
-cd "./conll"
-bash prepare_data.sh
-cd "./chemdner"
-bash prepare_data.sh
+set -o errexit
+
+ROOT_DIR=$PWD
+for dataset in conll chemdner
+do
+  cd $ROOT_DIR"/"$dataset
+  bash prepare_data.sh
+done

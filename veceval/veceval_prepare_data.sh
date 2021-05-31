@@ -13,7 +13,7 @@ echo $ROOTDIR
 # From here on, force all variables to be defined
 set -o nounset
 
-for task in sentiment questions  chunk nli pos ner
+for task in sentiment questions chunk nli pos ner
 do
   echo "===================================================================================="
   echo "PREPARING DATA FOR $task"
