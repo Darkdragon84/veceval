@@ -34,9 +34,9 @@ class ChunkFixedTrainer(Trainer):
                                           has_validation=False, is_testing=ve.IS_TESTING)
 
 
-def main_training(config_path, name):
+def main_training(config_path, dataset, name):
     np.random.seed(ve.SEED)
-    trainer = ChunkFixedTrainer(config_path, name)
+    trainer = ChunkFixedTrainer(config_path, name, dataset)
     trainer.train_and_test()
 
 

@@ -34,9 +34,9 @@ class POSFixedTrainer(Trainer):
         return model
 
 
-def main_training(config_path, name):
+def main_training(config_path, dataset, name):
     np.random.seed(ve.SEED)
-    trainer = POSFixedTrainer(config_path, name)
+    trainer = POSFixedTrainer(config_path, name, dataset)
     trainer.train_and_test()
 
 

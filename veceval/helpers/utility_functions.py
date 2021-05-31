@@ -60,8 +60,11 @@ PAD = "PAD"
 SEED = 137
 
 
-def make_paths(task, mode, name):
-    train_data_path = PROJECT_ROOT.joinpath("data").joinpath(task).joinpath("train.pickle").as_posix()
+def make_paths(task, mode, name, dataset=None):
+    train_data_path = PROJECT_ROOT.joinpath("data").joinpath(task)
+    if dataset:
+        train_data_path = train_data_path.joinpath(dataset)
+    train_data_path = train_data_path.joinpath("train.pickle").as_posix()
     checkpoint_path = CHECKPOINT_FOLDER.joinpath(f"{name}_{task}_{mode}.ckpt").as_posix()
     embedding_path = PICKLES_FOLDER.joinpath(f"{name}.pickle").as_posix()
     return train_data_path, checkpoint_path, embedding_path

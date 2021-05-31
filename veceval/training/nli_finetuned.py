@@ -75,9 +75,9 @@ class NLIFinetunedTrainer(Trainer):
         return set_to_evaluate, acc
 
 
-def main_training(config_path, name):
+def main_training(config_path, dataset, name):
     np.random.seed(ve.SEED)
-    trainer = NLIFinetunedTrainer(config_path, name)
+    trainer = NLIFinetunedTrainer(config_path, name, dataset)
     trainer.train_and_test()
 
 

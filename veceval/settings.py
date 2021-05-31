@@ -4,9 +4,13 @@ from pathlib import Path
 
 AVAILABLE_TASKS = ["chunk", "ner", "nli", "pos", "questions", "sentiment"]
 AVAILABLE_MODES = ["fixed", "finetuned"]
+AVAILABLE_DATASETS = {
+    "ner": ["conll", "chemdner"]
+}
 
 TASKS = AVAILABLE_TASKS
 MODES = AVAILABLE_MODES
+TASK_TO_DATASET = {task: datasets[0] for task, datasets in AVAILABLE_DATASETS.items()}
 
 AFFILIATION = "iris.ai"
 
@@ -32,6 +36,11 @@ except ImportError:
 
 TASKS = [task for task in TASKS if task in AVAILABLE_TASKS]
 MODES = [mode for mode in MODES if mode in AVAILABLE_MODES]
+
+TASK_TO_DATASET = {
+    task: dataset if dataset in AVAILABLE_DATASETS[task] else AVAILABLE_DATASETS[task][0]
+    for task, dataset in TASK_TO_DATASET.items() if task in AVAILABLE_TASKS
+}
 
 os.makedirs(EXT_DATA_ROOT, exist_ok=True)
 os.makedirs(RUNNING_LOG_FILE_PATH.parent, exist_ok=True)

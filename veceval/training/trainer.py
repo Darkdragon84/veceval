@@ -11,12 +11,12 @@ class Trainer(object):
     TASK = None
     MODE = None
 
-    def __init__(self, config_path, name):
+    def __init__(self, config_path, name, dataset=None):
 
         # Define constants and paths
         self.name = name
         (self.train_data_path, self.checkpoint_path,
-         self.embedding_path) = ve.make_paths(self.TASK, self.MODE, self.name)
+         self.embedding_path) = ve.make_paths(self.TASK, self.MODE, self.name, dataset)
 
         # Get embeddings
         self.embeddings: dict = load_pickle(self.embedding_path)

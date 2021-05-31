@@ -2,7 +2,7 @@ import os
 import sys
 from functools import partial
 
-from veceval.settings import CONFIGS_FOLDER, MODES, TASKS
+from veceval.settings import CONFIGS_FOLDER, MODES, TASKS, TASK_TO_DATASET
 import importlib
 
 
@@ -16,7 +16,7 @@ def compile_trainers():
                 continue
             try:
                 trainer = getattr(importlib.import_module(f"veceval.training.{base_name}"), "main_training")
-                trainer = partial(trainer, config_file_path)
+                trainer = partial(trainer, config_file_path, TASK_TO_DATASET.get(task))
             except (ImportError, ModuleNotFoundError, AttributeError):
                 continue
             task_to_trainer[base_name] = trainer
@@ -26,8 +26,11 @@ def compile_trainers():
 def evaluate_embedding(embedding_name):
     task_to_trainer = compile_trainers()
     for task_name, trainer in task_to_trainer.items():
+        task_info = task_name.upper()
+        if trainer.args[1]:
+            task_info += "  -  " + trainer.args[1].upper()
         print(80 * "-")
-        print(task_name.upper())
+        print(task_info)
         print(80 * "-")
         trainer(embedding_name)
         print()
