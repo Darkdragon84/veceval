@@ -117,6 +117,10 @@ class EmbeddingDataset(object):
         (self.X_train, self.Y_train,
          self.X_val, self.Y_val,
          self.X_test, self.Y_test) = datasets
+        self.input_size = self.X_train.shape[1]
+        self.output_size = self.Y_train.shape[1]
+        assert self.X_val.shape[1] == self.input_size
+        assert self.Y_val.shape[1] == self.output_size
 
     def load_datasets(self, train_pickle_path, embeddings,
                       has_validation=True):
@@ -162,6 +166,10 @@ class EmbeddingWindowCapsDataset(object):
         (self.X_train, self.Y_train,
          self.X_val, self.Y_val,
          self.X_test, self.Y_test) = datasets
+        self.input_size = self.X_train.shape[1]
+        self.output_size = self.Y_train.shape[1]
+        assert self.X_val.shape[1] == self.input_size
+        assert self.Y_val.shape[1] == self.output_size
 
     def load_datasets(self, train_pickle_path, embeddings,
                       has_validation, has_caps):

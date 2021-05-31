@@ -28,7 +28,7 @@ class NERFixedTrainer(Trainer):
         model.add(Activation(ve.TANH))
         model.add(Dropout(ve.DROPOUT_PROB))
         model.add(Dense(input_dim=ve.HIDDEN_SIZE,
-                        output_dim=ve.NER_CLASSES,
+                        output_dim=self.ds.output_size,
                         W_regularizer=l2(self.hp.dense_l2)))
         model.add(Activation(ve.SOFTMAX))
         ve.compile_other_model(model, self.hp.optimizer)

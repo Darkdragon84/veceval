@@ -47,6 +47,8 @@ class IndexWindowCapsDataset(object):
         (self.X_train, self.Y_train,
          self.X_val, self.Y_val,
          self.X_test, self.Y_test) = datasets
+        self.output_size = self.Y_train.shape[1]
+        assert self.Y_val.shape[1] == self.output_size
 
     def load_datasets(self, train_pickle_path, has_validation, has_caps):
         """Convert one set of examples into keras-friendly data structures.
@@ -142,6 +144,8 @@ class IndexDataset(object):
         (self.X_train, self.Y_train,
          self.X_val, self.Y_val,
          self.X_test, self.Y_test) = datasets
+        self.output_size = self.Y_train.shape[1]
+        assert self.Y_val.shape[1] == self.output_size
 
     def load_datasets(self, train_pickle_path, has_validation=True):
         """Convert one set of examples into keras-friendly data structures.
