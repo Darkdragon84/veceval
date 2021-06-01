@@ -14,3 +14,4 @@ six==1.10.0
 sklearn==0.0
 Theano==0.8.2
 vecto==0.2.12
+pandas==0.24.2
