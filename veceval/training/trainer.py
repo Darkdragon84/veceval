@@ -1,4 +1,7 @@
 import abc
+import csv
+import os.path
+
 import veceval.helpers.utility_functions as ve
 import time
 
@@ -10,13 +13,15 @@ class Trainer(object):
 
     TASK = None
     MODE = None
+    CSV_FIELDS = ["datetime", "affiliation", "model", "task", "dataset", "mode", "eval on", "score"]
 
-    def __init__(self, config_path, name, dataset=None):
+    def __init__(self, config_path, name, dataset):
 
         # Define constants and paths
         self.name = name
+        self.dataset = dataset
         (self.train_data_path, self.checkpoint_path,
-         self.embedding_path) = ve.make_paths(self.TASK, self.MODE, self.name, dataset)
+         self.embedding_path) = ve.make_paths(self.TASK, self.MODE, self.name, self.dataset)
 
         # Get embeddings
         self.embeddings: dict = load_pickle(self.embedding_path)
@@ -49,15 +54,29 @@ class Trainer(object):
     def build_model(self):
         pass
 
-    def print_result(self, set_to_evaluate=ve.VAL):
-        log_file = RUNNING_LOG_FILE_PATH
+    def write_result(self, set_to_evaluate=ve.VAL):
         affiliation = AFFILIATION
         set_to_evaluate, result = self.evaluate(set_to_evaluate)
-        with open(log_file, 'a') as f:
-            f.write("\t".join([time.strftime("%Y-%m-%d %H:%M:%S", time.gmtime()),
-                               affiliation, self.name, self.TASK, self.MODE,
-                               set_to_evaluate, str(result)]))
-            f.write("\n")
+
+        file_exists = os.path.isfile(RUNNING_LOG_FILE_PATH)
+        with open(RUNNING_LOG_FILE_PATH, 'a') as f:
+            # csv_writer = csv.DictWriter(f, self.CSV_FIELDS, delimiter="\t")
+            csv_writer = csv.DictWriter(f, self.CSV_FIELDS, delimiter="\t")
+            if not file_exists:
+                csv_writer.writeheader()
+
+            data_out = [
+                time.strftime("%Y-%m-%d %H:%M:%S", time.gmtime()),
+                affiliation,
+                self.name,
+                self.TASK,
+                self.dataset,
+                self.MODE,
+                set_to_evaluate,
+                str(result)
+            ]
+            assert len(data_out) == len(self.CSV_FIELDS)
+            csv_writer.writerow({field: value for field, value in zip(self.CSV_FIELDS, data_out)})
 
     def train(self):  # Overridden for NER, NLI
         callbacks = ve.callbacks(self.checkpoint_path, self.hp.stop_epochs)
@@ -70,6 +89,6 @@ class Trainer(object):
     def train_and_test(self):
         self.train()
         for set_to_evaluate in [ve.TRAIN, ve.VAL]:
-            self.print_result(set_to_evaluate)
+            self.write_result(set_to_evaluate)
         if ve.IS_TESTING:
-            self.print_result(ve.TEST)
+            self.write_result(ve.TEST)

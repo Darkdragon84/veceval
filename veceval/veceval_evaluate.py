@@ -7,34 +7,31 @@ import importlib
 
 
 def compile_trainers():
-    task_to_dataset_to_trainer = {}
+    task_dataset_trainers = []
     for task, datasets in TASK_TO_DATASET.items():
-        for mode in MODES:
-            base_name = f"{task}_{mode}"
-            config_file_path = CONFIGS_FOLDER / f"config_{base_name}.txt"
-            if not os.path.isfile(config_file_path):
-                continue
-            dataset_to_trainer = {}
-            for dataset in datasets:
+        for dataset in datasets:
+            for mode in MODES:
+                base_name = f"{task}_{mode}"
+                config_file_path = CONFIGS_FOLDER / f"config_{base_name}.txt"
+                if not os.path.isfile(config_file_path):
+                    continue
                 try:
                     trainer = getattr(importlib.import_module(f"veceval.training.{base_name}"), "main_training")
                     trainer = partial(trainer, config_file_path, dataset)
                 except (ImportError, ModuleNotFoundError, AttributeError):
                     continue
-                dataset_to_trainer[dataset] = trainer
-            task_to_dataset_to_trainer[base_name] = dataset_to_trainer
-    return task_to_dataset_to_trainer
+                task_dataset_trainers.append((base_name, dataset, trainer))
+    return task_dataset_trainers
 
 
 def evaluate_embedding(embedding_name):
-    task_to_trainer = compile_trainers()
-    for task_name, dataset_to_trainer in task_to_trainer.items():
-        for dataset, trainer in dataset_to_trainer.items():
-            print(80 * "-")
-            print(f"{task_name.upper()} - {dataset.upper()}")
-            print(80 * "-")
-            trainer(embedding_name)
-            print()
+    task_dataset_trainers = compile_trainers()
+    for task_name, dataset, trainer in task_dataset_trainers:
+        print(80 * "-")
+        print(f"{task_name.upper()} - {dataset.upper()}")
+        print(80 * "-")
+        trainer(embedding_name)
+        print()
 
 
 if __name__ == '__main__':

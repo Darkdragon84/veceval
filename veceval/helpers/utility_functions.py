@@ -7,7 +7,7 @@ from keras.callbacks import EarlyStopping, ModelCheckpoint
 from keras.utils.np_utils import categorical_probas_to_classes
 from sklearn.metrics import f1_score
 
-from veceval.settings import PROJECT_ROOT, CHECKPOINT_FOLDER, PICKLES_FOLDER
+from veceval.settings import CHECKPOINT_FOLDER, PICKLES_FOLDER, DATA_FOLDER
 
 POS = "pos"
 SENTIMENT = "sentiment"
@@ -60,11 +60,8 @@ PAD = "PAD"
 SEED = 137
 
 
-def make_paths(task, mode, name, dataset=None):
-    train_data_path = PROJECT_ROOT.joinpath("data").joinpath(task)
-    if dataset:
-        train_data_path = train_data_path.joinpath(dataset)
-    train_data_path = train_data_path.joinpath("train.pickle").as_posix()
+def make_paths(task, mode, name, dataset):
+    train_data_path = DATA_FOLDER.joinpath(task).joinpath(dataset).joinpath("train.pickle").as_posix()
     checkpoint_path = CHECKPOINT_FOLDER.joinpath(f"{name}_{task}_{mode}.ckpt").as_posix()
     embedding_path = PICKLES_FOLDER.joinpath(f"{name}.pickle").as_posix()
     return train_data_path, checkpoint_path, embedding_path
