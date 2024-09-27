@@ -40,8 +40,8 @@ class QuestionsFinetunedTrainer(Trainer):
                             is_testing=ve.IS_TESTING)
 
 
-def main_training(config_path, name):
-    np.random.seed(ve.SEED)
+def main_training(config_path, name, seed=ve.SEED):
+    ve.reset_seed(seed)
     trainer = QuestionsFinetunedTrainer(config_path, name)
     trainer.train_and_test()
 

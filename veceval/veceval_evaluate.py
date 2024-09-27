@@ -1,9 +1,9 @@
+import importlib
 import os
-import sys
 from functools import partial
 
+from veceval.helpers.utility_functions import SEED
 from veceval.settings import CONFIGS_FOLDER, MODES, TASKS
-import importlib
 
 
 def compile_trainers():
@@ -23,13 +23,13 @@ def compile_trainers():
     return task_to_trainer
 
 
-def evaluate_embedding(embedding_name):
+def evaluate_embedding(embedding_name: str, seed: int = SEED):
     task_to_trainer = compile_trainers()
     for task_name, trainer in task_to_trainer.items():
         print(80 * "-")
         print(task_name.upper())
         print(80 * "-")
-        trainer(embedding_name)
+        trainer(embedding_name, seed=seed)
         print()
 
 
